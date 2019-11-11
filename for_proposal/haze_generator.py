@@ -14,7 +14,7 @@ Edited by: Linxiao and Zhizhuo
 '''
 
 # Global variable save directory
-SAVE_DIRECTORY = r'C:\Users\34654\Documents\UMich\Academy\research\Air_Quality\3D_Blender\smoke_cube' 
+SAVE_DIRECTORY = r'C:\Users\34654\Documents\UMich\Academy\research\Air_Quality\3D_Blender\smoke_cube\img' 
 
 def delete_all():
     '''
@@ -173,7 +173,40 @@ def create_camera(radius, z_axis, num = 2, angle = 45):
         bpy.ops.object.camera_add(view_align=False, location=[x,y, z_axis])
         
     # f.close() 
+
+def create_scene(dim=[3, 3, 3], rad=2, scene_mode="close"):
+    x_loc = 0
+    y_loc = 0 
+    if scene_mode == "moderate":
+        y_loc = rad
+    elif scene_mode == "close":
+        y_loc = rad + (dim[1]//2 - 1) * 2 * rad
+    elif scene_mode == "far":
+        # far
+        y_loc = rad - (dim[1]//2) * 2 * rad
     
+    if scene_mode != "dense":
+        for x_step in range(-1 * dim[0] // 2, dim[0] // 2):
+            if x_step % 2 == 1 or x_step % 2 == 0:
+                x_loc = rad + x_step * 2 * rad
+                bpy.ops.mesh.primitive_cylinder_add(radius= rad * dim[0] * 0.2, depth=rad * dim[2], location=(x_loc,y_loc,0.5 * rad * dim[2]))
+                activeObject = bpy.context.active_object
+                mat = bpy.data.materials.new(name="Building") #set new material to variable
+                activeObject.data.materials.append(mat) #add the material to the object
+                bpy.context.object.active_material.diffuse_color = (uniform(0, 1), uniform(0, 1), uniform(0, 1)) #change color    
+    
+    else:
+        # dense mode               
+        for y_step in range(-1 * dim[1] // 2, dim[1] // 2):
+            for x_step in range(-1 * dim[0] // 2, dim[0] // 2):
+                x_loc = rad + x_step * 2 * rad
+                y_loc = rad + y_step * 2 * rad
+                bpy.ops.mesh.primitive_cylinder_add(radius= rad * dim[0] * 0.2, depth=rad * dim[2], location=(x_loc,y_loc,rad * dim[2]))
+                activeObject = bpy.context.active_object
+                mat = bpy.data.materials.new(name="Building") #set new material to variable
+                activeObject.data.materials.append(mat) #add the material to the object
+                bpy.context.object.active_material.diffuse_color = (uniform(0, 1), uniform(0, 1), uniform(0, 1)) #change color    
+        
 def main():
     '''
     Create pollution cubes and general actions
@@ -187,6 +220,7 @@ def main():
     input_file_mode = True
     filename = "input_file\same_0.05.txt"
     
+    scene_mode = "moderate" # scene_mode is close, moderate, far, or dense
     
     '''
     The first three lines specify x dim, y dim and z dim
@@ -194,10 +228,10 @@ def main():
     '''
     save_directory = SAVE_DIRECTORY
     # half length for each cube
-    rad = 3
+    rad = 2
     r = rad - 0.0001 
     # will create dim[0] * dim[1] * dim[2] of cubes
-    dim = [1, 1, 1] 
+    dim = [5, 5, 5] 
     ###################################################
     # no need to modify when use
     inFile = None
@@ -212,13 +246,13 @@ def main():
         dim[1] = int(input_list.pop(0))
         dim[2] = int(input_list.pop(0))
         # print(dim)
-    inFile.close()
+        inFile.close()
     ####################################################
     
     # number of image set to create
     num_image_set = 1 
     # add 2 cameras with 45 degree of distance to each other
-    create_camera(rad * 2.2 * dim[0], rad * dim[0], 2, degrees(45)) 
+    create_camera(rad * 2.3 * dim[0], rad * dim[0], 2, degrees(45)) 
     # make all camera look at (0, 0, dim[2] // 2)
     align_camera((0, 0,  rad * dim[0] * 0.4))  
     # end of tunable parameter
@@ -230,16 +264,16 @@ def main():
     ### USE SKY
     bpy.context.scene.world.use_sky_paper = True
     
-    bpy.ops.mesh.primitive_plane_add(radius=10, location=(0,0,-0.001))  # ground
+    bpy.ops.mesh.primitive_plane_add(radius=rad*dim[0]*1.5, location=(0,0,-0.001))  # ground
     activeObject = bpy.context.active_object
-    mat = bpy.data.materials.new(name="Building") #set new material to variable
+    mat = bpy.data.materials.new(name="Ground") #set new material to variable
     activeObject.data.materials.append(mat) #add the material to the object
     bpy.context.object.active_material.diffuse_color = (.2, .2, .2) #change color
     
     
     for i in range(num_image_set):
         
-        dir = "image_set_" + str(i)
+        dir = "image_set_" + scene_mode + str(i)
         file_name = 'label' + str(i) +'.txt'
         pathname = os.path.join(save_directory, dir)
         # print(pathname)
@@ -286,17 +320,7 @@ def main():
         Generate Depth Map with Buildings
         '''
         # create buildings
-        bpy.ops.mesh.primitive_cylinder_add(radius= rad * dim[0] * 0.2, depth=rad * dim[0], location=(0,3,4))
-        activeObject = bpy.context.active_object
-        mat = bpy.data.materials.new(name="Building") #set new material to variable
-        activeObject.data.materials.append(mat) #add the material to the object
-        bpy.context.object.active_material.diffuse_color = (.8, .4, .4) #change color
-        
-        bpy.ops.mesh.primitive_cylinder_add(radius= rad * dim[0] * 0.1, depth=rad * dim[0], location=(3,1,4))
-        activeObject = bpy.context.active_object
-        mat = bpy.data.materials.new(name="Building") #set new material to variable
-        activeObject.data.materials.append(mat) #add the material to the object
-        bpy.context.object.active_material.diffuse_color = (.4, .8, .4) #change color
+        create_scene(dim=dim, rad=rad, scene_mode=scene_mode)
         
         # add light
         scene = bpy.context.scene
@@ -349,7 +373,7 @@ def main():
         links.new(rl.outputs['Mist'],composite.inputs['Image'])
 
         scene.render.use_multiview = False
-        dir2 = "depth_set_" + str(i)
+        dir2 = "depth_set_" + scene_mode + str(i)
         
         depthpath = os.path.join(save_directory, dir2)
         for ob in bpy.context.scene.objects:
