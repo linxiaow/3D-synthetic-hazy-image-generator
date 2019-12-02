@@ -14,3 +14,10 @@ Here is some example images:
 <img src="example_images/img_preserve/0.08/image_set_0/Camera.png" width="150">
 <img src="example_images/img_preserve/0.08/image_set_0/Camera.001.png" width="150">  
 </span>
+
+Here is the associated depth map:
+
+<span>
+<img src="example_images/img_preserve/0.08/depth_set_0/Camera.png" width="150">
+<img src="example_images/img_preserve/0.08/depth_set_0/Camera.001.png" width="150">  
+</span>
