@@ -10,4 +10,7 @@ Blender is a open source 3D graphics and animation software, downloadable at "ht
 
 Here is some example images:
 
+<span>
 <img src="example_images/img_preserve/0.08/image_set_0/Camera.png" width="150">
+<img src="example_images/img_preserve/0.08/image_set_0/Camera.001.png" width="150">  
+</span>
