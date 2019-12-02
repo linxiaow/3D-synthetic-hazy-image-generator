@@ -21,3 +21,7 @@ Here is the associated depth map:
 <img src="example_images/img_preserve/0.08/depth_set_0/Camera.png" width="150">
 <img src="example_images/img_preserve/0.08/depth_set_0/Camera.001.png" width="150">  
 </span>
+
+## Usage
+
+Basically, open Blender software and switch to scripting mode, and paste the code in the haze_generator.py to the window and click run. For more instruction please refer to the comments in the code and the PowerPoint, Scripting Blender
