@@ -1,0 +1,14 @@
+Camera look at
+ 0.000000 0.000000 0.833333
+Camera name: <bpy_struct, Object("Camera")>
+Camera locate at
+ 2.499999 2.499999 1.666667
+Camera name: <bpy_struct, Object("Camera.001")>
+Camera locate at
+ 2.499999 -2.499999 1.666667
+Camera name: <bpy_struct, Object("Camera.002")>
+Camera locate at
+ -2.499999 -2.499999 1.666667
+Camera name: <bpy_struct, Object("Camera.003")>
+Camera locate at
+ -2.499999 2.499999 1.666667
