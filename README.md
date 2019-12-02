@@ -26,8 +26,13 @@ Here is the associated depth map:
 - can randomly assign uncorrelated air transmittance by setting inputFileMode to false
 - can take file input by setting inputFileMode to true. In real scence, air transmittances in space are correlated. Refer to [Cholesckey Decomposition](https://docs.scipy.org/doc/scipy-0.15.1/reference/generated/scipy.linalg.cholesky.html) to generate Gaussian Correlated matrix to a file and use as an input.
 - can set the camera numbers, view angles and intervals to generate multi-view images of a spot
+- cam control the number of datasets to create
 - more features, refer to the comments in the code.
+
+## Added Feature in haze_generator_new.py
+- can automatically create random building objects with random size
+- can control the distance between building objects and the camera
 
 ## Usage
 
-Basically, open Blender software and switch to scripting mode, and paste the code in the haze_generator.py to the window and click run. For more instruction please refer to the comments in the code and the PowerPoint, Scripting Blender
+Basically, open Blender software and switch to scripting mode, and paste the code in the haze_generator.py/haze_generator_new.py to the window and click run. For more instruction please refer to the comments in the code and the PowerPoint, Scripting Blender
