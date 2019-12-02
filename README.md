@@ -5,3 +5,9 @@ haze_generator.py is a Blender script for creating large number of 3D hazy scene
 For how the depth infomation is added, refer to this github repo: https://github.com/LouisFoucard/DepthMap_dataset
 
 Blender is a open source 3D graphics and animation software, downloadable at "https://www.blender.org/".
+
+## Example images
+
+Here is some example images:
+
+![hazy images](example_images/img_preserve/0.08/image_set_0/Camera.png)
